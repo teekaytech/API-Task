@@ -1,62 +1,148 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## CRUD API Task
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repository contains an implementation of RESTful API task. The API provides endpoints through which users can register, login, 
+add book to a database, get all books from the database, get a single book and delete a book from the database.
 
-## About Laravel
+## Built With:
+- PHP 7.3
+- Laravel 8.12
+- Sanctum (Authentication System)
+- MySQL
+- Postman (Testing)
+- Heroku (JawsDB MySQL Addon)
+- Git/GitHub GitFlow
+- PHPStorm
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Base (Live)  URL: https://pumpkin-cake-55723.herokuapp.com/
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Getting Started
+### Setup
+To setup this project on your development environment, follow the steps below:
+- On the project GitHub page, navigate to the main page of the repository ([this page](https://github.com/teekaytech/API-Task)).
+- Under the repository name, locate and click on a green button named `Code`.
+- Copy the project URL as displayed (`https://github.com/teekaytech/API-Task.git`).
+- If you're running Windows Operating System, open your command prompt. On Linux, Open your terminal.
+- Change the current working directory to the location where you want the cloned directory to be made. Leave as it is if the current location is where you want the project to be.
+- Type git clone, and then paste the URL you copied in Step 3.
+  `$ git clone https://github.com/teekaytech/API-Task.git`
+- Press the `Enter` button. Your local copy will be created.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Starting the app
+- To install the dependencies on your local machine, run `composer install` on your terminal.
+- Optionally, you can run `npm install` to setup other node dependencies as the need arises.
+- Create a copy of `.env.example`, rename the copy to `.env`
+- Run `php artisan key:generate` to generate the app key.
+- Create a database with a suitable name (In my case, I used api_task).
+- Configure the database credentials (db name, port, username, password, etc) in the `.env` file. 
+- Run `php artisan migrate` to setup the application database
+- To create dummie data for testing purpose, run `php artisan db:seed`.
+- Finally, you can now start the app with `php artisan serve` command.
 
-## Learning Laravel
+Note: you must have `PHP >= V7.3`, `Composer`, & `MySQL` installed on your PC to setup the app locally.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## API Documentation
+> The base URL for all endpoints is `https://pumpkin-cake-55723.herokuapp.com/`. Some endpoints requires authentication while some does not. 
+> The authentication process is implemented with [Laravel Sanctum](https://laravel.com/docs/8.x/sanctum).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Summary of Available API Endpoints**
 
-## Laravel Sponsors
+| Endpoint | Feature | Authentication |
+| -------- | -------- | -------------- |
+| POST /api/register | Registers a new user | No |
+| POST /api/login | Logs in a user | No |
+| POST /api/books | Store a new book to db | Yes |
+| GET /api/books | Fetch all available books | No |
+| DELETE /api/books/:id | Delete a book from db | Yes |
+| GET /api/books/:id | Fetch a book from db | No |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+**Sampling a request that DOES NOT require authentication**
+__GET /api/books__: Fetch all available books.
+Endpoint: `https://pumpkin-cake-55723.herokuapp.com/api/books`
 
-### Premium Partners
+PHP CURL Request (Postman):
+```injectablephp
+<?php
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/)**
-- **[OP.GG](https://op.gg)**
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://pumpkin-cake-55723.herokuapp.com/api/books',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'GET',
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+
+**Sampling a request that DOES require authentication**
+__POST /api/books__: Create a new book.
+Endpoint: `https://pumpkin-cake-55723.herokuapp.com/api/books`
+
+PHP CURL Request (Postman):
+```injectablephp
+<?php
+
+$curl = curl_init();
+
+curl_setopt_array($curl, array(
+  CURLOPT_URL => 'https://pumpkin-cake-55723.herokuapp.com/api/books',
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_ENCODING => '',
+  CURLOPT_MAXREDIRS => 10,
+  CURLOPT_TIMEOUT => 0,
+  CURLOPT_FOLLOWLOCATION => true,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => 'POST',
+  CURLOPT_POSTFIELDS => array('title' => 'Who the crown fits','author' => 'Keye Abiona','pages' => '120'),
+  CURLOPT_HTTPHEADER => array(
+    'Accept: application/json',
+    'Authorization: Bearer 2|Hl6nVpCVub70i28ROJYVQoLZdEyjiqkyyastHH3L'
+  ),
+));
+
+$response = curl_exec($curl);
+
+curl_close($curl);
+echo $response;
+```
+
+## Author
+**Taofeek OLALERE**
+- [Portfolio](https://taofeekolalere.me)
+- [Github](https://github.com/teekaytech/)
+- [Twitter](https://twitter.com/ola_lere)
+- [LinkedIn](https://www.linkedin.com/in/olaleretaofeek/)
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Contributions, issues and feature requests are welcome!
 
-## Code of Conduct
+1. Fork the Project: https://github.com/teekaytech/API-Task.git
+2. Make your changes
+2. Open a Pull Request
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Feel free to check the [issues page](https://github.com/teekaytech/API-Task/issues).
 
-## Security Vulnerabilities
+## Show your support
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Give a :star: if you like this project!
 
-## License
+## Acknowledgements
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- [Heroku Documentation](https://devcenter.heroku.com/articles/getting-started-with-laravel)
+- [JOel Okoromi on Dev.to](https://dev.to/okmarq/deploying-a-laravel-application-to-heroku-with-a-mysql-database-1gi3)
+- [AFTj Digital Marketing and Solutions](https://dev.to/okmarq/deploying-a-laravel-application-to-heroku-with-a-mysql-database-1gi3)
+- [Adre Castelo on Total Blog](https://www.toptal.com/laravel/restful-laravel-api-tutorial)
+- [Laravel Sanctum Docs](https://laravel.com/docs/8.x/sanctum)
+
