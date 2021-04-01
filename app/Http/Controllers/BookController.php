@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -16,8 +17,21 @@ class BookController extends Controller
     }
 
     public function store(Request $request) {
-        $book = Book::create($request->all());
-        return response()->json($book, 201);
+        $validation = Validator::make($request->all(), [
+            'title' => ['required', 'string'],
+            'author' => ['required', 'string'],
+            'pages' => ['required', 'numeric',],
+        ]);
+
+        if (count($validation->errors()) === 0) {
+            $book = Book::create($request->all());
+            return response()->json($book, 201);
+        }
+
+        return response()->json([
+            'messages' => $validation->errors(),
+            'info' => ['Book not created.']
+        ],404);
     }
 
     public function delete(Book $book) {
